@@ -139,14 +139,31 @@
     .section-note { max-width: 390px; margin: 0; color: rgba(255,255,255,.48); font-size: 13px; line-height: 1.7; }
 
     .fixtures { background: linear-gradient(180deg,var(--night),var(--slate)); }
+    .fixtures-title span { display: block; overflow: hidden; }
+    .fixtures-title b { display: block; font: inherit; }
+    .fixtures.in-view .fixtures-title b { animation: fixture-title-rise .9s cubic-bezier(.16,1,.3,1) backwards; }
+    .fixtures.in-view .fixtures-title span:nth-child(2) b { animation-delay: .14s; }
+    @keyframes fixture-title-rise { from { opacity: 0; filter: blur(8px); transform: translateY(108%) skewY(4deg); } }
     .fixture-grid { display: grid; grid-template-columns: 1.25fr .75fr .75fr; gap: 14px; }
     .fixture { position: relative; min-height: 430px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; border: 1px solid rgba(255,255,255,.13); background: rgba(255,255,255,.035); transition: transform .35s, border-color .35s; }
+    .fixture-grid.in-view .fixture { animation: fixture-enter .75s cubic-bezier(.2,.8,.2,1) backwards; }
+    .fixture-grid.in-view .fixture:nth-child(2) { animation-delay: .12s; }
+    .fixture-grid.in-view .fixture:nth-child(3) { animation-delay: .24s; }
+    @keyframes fixture-enter { from { opacity: 0; transform: translateY(54px) rotateX(5deg); } }
     .fixture:hover { z-index: 2; border-color: var(--blue); transform: translateY(-10px); }
     .fixture::before { position: absolute; right: -40%; bottom: -50%; width: 100%; aspect-ratio: 1; content: ""; border: 1px solid rgba(96,165,250,.25); border-radius: 50%; transition: transform .6s; }
+    .fixture::after { position: absolute; z-index: 0; top: -20%; left: -45%; width: 24%; height: 140%; content: ""; pointer-events: none; opacity: 0; background: linear-gradient(90deg,transparent,rgba(96,165,250,.18),transparent); transform: skewX(-18deg) translateX(-450%); animation: fixture-scan 7s ease-in-out infinite; }
+    .fixture:nth-child(2)::after { animation-delay: -4.7s; }
+    .fixture:nth-child(3)::after { animation-delay: -2.3s; }
+    .fixture > * { position: relative; z-index: 1; }
+    @keyframes fixture-scan { 0%,18% { opacity: 0; transform: skewX(-18deg) translateX(-450%); } 27% { opacity: 1; } 48%,100% { opacity: 0; transform: skewX(-18deg) translateX(750%); } }
     .fixture:hover::before { transform: scale(1.4); }
     .fixture.featured { background: linear-gradient(150deg,rgba(96,165,250,.17),rgba(167,139,250,.08)); }
     .fixture-top { display: flex; justify-content: space-between; color: var(--blue); font-size: 9px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
-    .fixture-date { color: rgba(255,255,255,.25); font: 900 82px/.75 var(--display); transition: color .3s; }
+    .fixture-date { color: rgba(255,255,255,.25); font: 900 82px/.75 var(--display); transition: color .3s; animation: fixture-date-drift 3.8s ease-in-out infinite alternate; }
+    .fixture:nth-child(2) .fixture-date { animation-delay: -1.3s; }
+    .fixture:nth-child(3) .fixture-date { animation-delay: -2.6s; }
+    @keyframes fixture-date-drift { to { transform: translateY(-7px); } }
     .fixture:hover .fixture-date { color: var(--orange); }
     .fixture h3 { max-width: 410px; margin: 20px 0 12px; font: 800 35px/.93 var(--display); text-transform: uppercase; }
     .featured h3 { font-size: 50px; }
@@ -156,10 +173,6 @@
 
     .cinema { min-height: 760px; display: flex; align-items: flex-end; overflow: hidden; background: var(--slate); }
     .cinema-photo { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(circle at 77% 47%,rgba(255,255,255,.13) 0 1%,rgba(96,165,250,.2) 2%,transparent 24%),radial-gradient(circle at 77% 47%,transparent 0 17%,rgba(167,139,250,.28) 17.2% 17.5%,transparent 17.8% 27%,rgba(96,165,250,.19) 27.2% 27.5%,transparent 27.8%),linear-gradient(115deg,#020617 18%,#111d47 65%,#0f172a); }
-    .cinema-photo::before { position: absolute; top: 44%; right: 20%; width: 54px; aspect-ratio: 1; content: ""; border-radius: 50%; background: white; box-shadow: 0 0 18px white,0 0 70px var(--blue),0 0 130px var(--violet); animation: speed-ball 2.6s cubic-bezier(.6,0,.4,1) infinite alternate; }
-    .cinema-photo::after { position: absolute; top: 47%; right: 23%; width: 48vw; height: 3px; content: ""; background: linear-gradient(90deg,transparent,var(--violet),var(--blue),white); transform-origin: right; filter: drop-shadow(0 0 8px var(--blue)); animation: speed-trail 2.6s ease-in-out infinite alternate; }
-    @keyframes speed-ball { to { transform: translate(-34vw,16vh) scale(.32); } }
-    @keyframes speed-trail { to { width: 18vw; transform: rotate(-14deg); opacity: .45; } }
     .cinema-table { position: absolute; z-index: 1; right: -2%; bottom: 0; width: 58%; height: 58%; perspective: 900px; pointer-events: none; opacity: .76; }
     .cinema-table-top { position: absolute; top: 17%; left: 3%; width: 92%; height: 57%; background: #082683; border: 3px solid var(--blue); box-shadow: 0 38px 65px rgba(2,6,23,.58),0 0 35px rgba(96,165,250,.18); transform: rotateX(61deg) rotateZ(-8deg); transform-style: preserve-3d; animation: cinema-table-float 5s ease-in-out infinite alternate; }
     .cinema-table-top::before { position: absolute; top: 50%; left: 0; width: 100%; height: 3px; content: ""; background: var(--white); box-shadow: 0 -11px 22px rgba(255,255,255,.55); }
@@ -182,14 +195,22 @@
     .pathway::after { position: absolute; right: -12%; top: -20%; width: 520px; aspect-ratio: 1; content: ""; border: 75px solid rgba(96,165,250,.13); border-radius: 50%; }
     .path-grid { position: relative; z-index: 1; display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; }
     .path-title { position: sticky; top: 35px; align-self: start; }
-    .path-title h2 em { color: #7c3aed; font-style: normal; }
+    .path-title h2 span { display: block; margin-left: 11%; color: transparent; -webkit-text-stroke: 1.5px #7c3aed; }
+    .path-title h2 em { position: relative; display: inline-block; color: #7c3aed; font-style: normal; -webkit-text-stroke: 0; animation: path-word-shift 3.5s ease-in-out infinite alternate; }
+    @keyframes path-word-shift { to { transform: translateX(18px); } }
     .steps { border-top: 1px solid rgba(17,24,39,.18); }
-    .step { display: grid; grid-template-columns: 52px 1fr 34px; gap: 20px; align-items: start; padding: 29px 0; border-bottom: 1px solid rgba(17,24,39,.18); }
-    .step-num { color: #7c3aed; font: 800 13px/1 var(--display); }
+    .step { position: relative; isolation: isolate; display: grid; grid-template-columns: 52px 1fr 34px; gap: 20px; align-items: start; padding: 29px 20px; overflow: hidden; border-bottom: 1px solid rgba(17,24,39,.18); transition: color .3s; }
+    .step::before { position: absolute; z-index: 0; inset: 0; content: ""; background: #2563eb; transform: scaleY(0); transform-origin: bottom; transition: transform .38s cubic-bezier(.7,0,.3,1); }
+    .step > * { position: relative; z-index: 1; }
+    .step:is(:hover,.is-hovered)::before { transform: scaleY(1); }
+    .step-num { color: #7c3aed; font: 800 13px/1 var(--display); transition: color .3s; }
     .step h3 { margin: 0 0 9px; font: 800 28px/1 var(--display); text-transform: uppercase; }
-    .step p { margin: 0; color: #64748b; font-size: 12px; line-height: 1.65; }
+    .step p { margin: 0; color: #64748b; font-size: 12px; line-height: 1.65; transition: color .3s; }
     .step-icon { width: 30px; aspect-ratio: 1; display: grid; place-items: center; color: white; background: #2563eb; border-radius: 50%; transition: transform .4s; }
-    .step:hover .step-icon { transform: rotate(180deg); background: var(--orange); }
+    .step:is(:hover,.is-hovered) { color: var(--white); }
+    .step:is(:hover,.is-hovered) .step-num { color: var(--orange); }
+    .step:is(:hover,.is-hovered) p { color: rgba(255,255,255,.78); }
+    .step:is(:hover,.is-hovered) .step-icon { color: var(--night); background: var(--orange); transform: rotate(180deg); }
 
     .scoreboard { overflow: hidden; background: var(--night); }
     .scoreboard::before { position: absolute; inset: 0; content: ""; opacity: .11; background-image: linear-gradient(rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.4) 1px,transparent 1px); background-size: 90px 90px; }
@@ -208,8 +229,8 @@
     .join-logo { width: 90px; margin: 0 auto 20px; padding: 6px; border-radius: 50%; background: white; animation: logo-turn 12s linear infinite; }
     @keyframes logo-turn { to { transform: rotate(360deg); } }
     .join-inner { position: relative; z-index: 1; }
-    .join h2 { max-width: 1050px; margin-inline: auto; font-size: clamp(78px,10vw,150px); }
-    .join .button { color: white; background: var(--night); border: 0; }
+    .join h2 { max-width: 1050px; margin: 15px auto 58px; font-size: clamp(78px,10vw,150px); }
+    .join .button { width: max-content; display: flex; margin: 0 auto; color: white; background: var(--night); border: 0; }
     .join .button::before { background: var(--orange); }
 
     footer { padding: 65px 0 28px; background: #01030d; }
@@ -272,11 +293,11 @@
       .fixture-grid { grid-template-columns: 1fr; }
       .fixture,.fixture.featured { min-height: 340px; grid-column: auto; }
       .featured h3 { font-size: 40px; }
-      .cinema { min-height: 690px; }
-      .cinema-content { padding-bottom: 65px; }
+      .cinema { min-height: 560px; align-items: center; padding-block: 58px; }
+      .cinema-content { padding-bottom: 0; }
       .cinema h2 { font-size: clamp(46px,15vw,58px); }
-      .cinema-copy { align-items: flex-start; flex-direction: column; }
-      .cinema-table { right: -45%; bottom: 4%; width: 112%; height: 48%; opacity: .42; }
+      .cinema-copy { align-items: flex-start; flex-direction: column; gap: 24px; }
+      .cinema-table { right: -45%; bottom: -3%; width: 112%; height: 54%; opacity: .38; }
       .cinema-rally-ball { left: 22%; width: 20px; }
       @keyframes cinema-rally { to { transform: translate(130px,52px) scale(.72); } }
       .speed { font-size: 65px; text-align: left; }
@@ -285,7 +306,7 @@
       .score strong { font-size: 72px; }
       .score span { font-size: 8px; }
       .join { min-height: 510px; }
-      .join h2 { font-size: clamp(68px,22vw,100px); }
+      .join h2 { margin-bottom: 42px; font-size: clamp(68px,22vw,100px); }
       .footer-main { grid-template-columns: 1fr 1fr; gap: 38px 24px; }
       .footer-bottom { align-items: flex-start; flex-direction: column; gap: 10px; }
     }
@@ -313,13 +334,13 @@
 
     <div class="marquee"><div class="marquee-track"><span>Tamil Nadu moves fast</span><span>State ranking championships</span><span>Serve / Spin / Smash</span><span>National ranking calendar</span><span>Future champions begin here</span><span>Tamil Nadu moves fast</span><span>State ranking championships</span><span>Serve / Spin / Smash</span><span>National ranking calendar</span><span>Future champions begin here</span></div></div>
 
-    <section class="section fixtures" id="fixtures"><div class="shell"><div class="section-head reveal"><div><p class="kicker">Tournament desk / 2025 archive</p><h2>Lights on.<br>Game on.</h2></div><p class="section-note">The current association fixtures, presented with fast access to dates, venues and official tournament documents.</p></div><div class="fixture-grid stagger"><a class="fixture featured" href="https://tntta.org.in/wp-content/uploads/2025/10/7th.jpeg"><div class="fixture-top"><span>01 / State ranking</span><span>Chennai</span></div><div><span class="fixture-date">24-26</span><h3>Tamil Nadu State Ranking Tournament</h3><p>October 2025 / Tamil Nadu Physical Education University</p></div><span class="fixture-arrow">&#8599;</span></a><a class="fixture" href="https://www.ttfi.org/webroot/uploads/Tournaments/Pdf/3ef4d26287d4.pdf"><div class="fixture-top"><span>02 / National</span><span>Haryana</span></div><div><span class="fixture-date">09-14</span><h3>Panchkula Championships</h3><p>November 2025 / UTT National Ranking</p></div><span class="fixture-arrow">&#8599;</span></a><a class="fixture" href="https://www.ttfi.org/webroot/uploads/Tournaments/Pdf/UjK_Prospectus_3rd_NR_2025_Indore.pdf"><div class="fixture-top"><span>03 / National</span><span>Madhya Pradesh</span></div><div><span class="fixture-date">28-04</span><h3>Indore Championships</h3><p>Oct-Nov 2025 / UTT National Ranking</p></div><span class="fixture-arrow">&#8599;</span></a></div></div></section>
+    <section class="section fixtures" id="fixtures"><div class="shell"><div class="section-head reveal"><div><p class="kicker">Tournament desk / 2025 archive</p><h2 class="fixtures-title"><span><b>Lights on.</b></span><span><b>Game on.</b></span></h2></div><p class="section-note">The current association fixtures, presented with fast access to dates, venues and official tournament documents.</p></div><div class="fixture-grid stagger"><a class="fixture featured" href="https://tntta.org.in/wp-content/uploads/2025/10/7th.jpeg"><div class="fixture-top"><span>01 / State ranking</span><span>Chennai</span></div><div><span class="fixture-date">24-26</span><h3>Tamil Nadu State Ranking Tournament</h3><p>October 2025 / Tamil Nadu Physical Education University</p></div><span class="fixture-arrow">&#8599;</span></a><a class="fixture" href="https://www.ttfi.org/webroot/uploads/Tournaments/Pdf/3ef4d26287d4.pdf"><div class="fixture-top"><span>02 / National</span><span>Haryana</span></div><div><span class="fixture-date">09-14</span><h3>Panchkula Championships</h3><p>November 2025 / UTT National Ranking</p></div><span class="fixture-arrow">&#8599;</span></a><a class="fixture" href="https://www.ttfi.org/webroot/uploads/Tournaments/Pdf/UjK_Prospectus_3rd_NR_2025_Indore.pdf"><div class="fixture-top"><span>03 / National</span><span>Madhya Pradesh</span></div><div><span class="fixture-date">28-04</span><h3>Indore Championships</h3><p>Oct-Nov 2025 / UTT National Ranking</p></div><span class="fixture-arrow">&#8599;</span></a></div></div></section>
 
     <section class="section cinema" id="game"><div class="cinema-photo"></div><div class="cinema-table" aria-label="Animated competition table and ball rally"><div class="cinema-table-top"></div><div class="cinema-rally-ball"></div></div><div class="cinema-content shell reveal"><p class="kicker">More than reaction</p><h2>Master the <span>milliseconds.</span></h2><div class="cinema-copy"><p>The table is small. The possibilities are not. Read the spin, own the angle and move before the moment arrives.</p><div class="speed">140<small>KM/H elite smash speed</small></div></div></div></section>
 
-    <section class="section pathway" id="pathway"><div class="shell path-grid"><div class="path-title reveal"><p class="kicker">The TNTTA pathway</p><h2>From first hit<br>to <em>final point.</em></h2></div><div class="steps stagger"><article class="step"><span class="step-num">01</span><div><h3>Discover</h3><p>Open tables through schools, districts and inclusive community programs for every age and ability.</p></div><span class="step-icon">&#8599;</span></article><article class="step"><span class="step-num">02</span><div><h3>Develop</h3><p>Build technique, athletic intelligence and confidence through structured coaching and camps.</p></div><span class="step-icon">&#8599;</span></article><article class="step"><span class="step-num">03</span><div><h3>Compete</h3><p>Test progress in professionally managed district, state and national competitions.</p></div><span class="step-icon">&#8599;</span></article><article class="step"><span class="step-num">04</span><div><h3>Represent</h3><p>Carry Tamil Nadu ambition onto the national stage with integrity, courage and pride.</p></div><span class="step-icon">&#8599;</span></article></div></div></section>
+    <section class="section pathway" id="pathway"><div class="shell path-grid"><div class="path-title reveal"><p class="kicker">The TNTTA pathway</p><h2>From first hit<span>to <em>final point.</em></span></h2></div><div class="steps stagger"><article class="step"><span class="step-num">01</span><div><h3>Discover</h3><p>Open tables through schools, districts and inclusive community programs for every age and ability.</p></div><span class="step-icon">&#8599;</span></article><article class="step"><span class="step-num">02</span><div><h3>Develop</h3><p>Build technique, athletic intelligence and confidence through structured coaching and camps.</p></div><span class="step-icon">&#8599;</span></article><article class="step"><span class="step-num">03</span><div><h3>Compete</h3><p>Test progress in professionally managed district, state and national competitions.</p></div><span class="step-icon">&#8599;</span></article><article class="step"><span class="step-num">04</span><div><h3>Represent</h3><p>Carry Tamil Nadu ambition onto the national stage with integrity, courage and pride.</p></div><span class="step-icon">&#8599;</span></article></div></div></section>
 
-    <section class="section scoreboard" id="legacy"><div class="shell"><div class="section-head reveal"><div><p class="kicker">Association scoreboard</p><h2>Legacy loading.</h2></div><p class="section-note">Data-ready positions for verified TNTTA achievement totals. The current source website displays zero for each category.</p></div><div class="score-grid stagger"><div class="score"><small>01 / Senior</small><strong>0</strong><span>National champions</span></div><div class="score"><small>02 / Senior</small><strong>0</strong><span>National titles</span></div><div class="score"><small>03 / Junior</small><strong>0</strong><span>National champions</span></div><div class="score"><small>04 / Junior</small><strong>0</strong><span>National titles</span></div></div></div></section>
+    <section class="section scoreboard" id="legacy"><div class="shell"><div class="section-head reveal"><div><p class="kicker">Association scoreboard</p><h2>Legacy in numbers.</h2></div><p class="section-note">Verified achievement totals published by the Tamil Nadu Table Tennis Association.</p></div><div class="score-grid stagger"><div class="score"><small>01 / Senior</small><strong data-count="11">0</strong><span>National champions</span></div><div class="score"><small>02 / Senior</small><strong data-count="34">0</strong><span>National titles</span></div><div class="score"><small>03 / Junior</small><strong data-count="11">0</strong><span>National champions</span></div><div class="score"><small>04 / Junior</small><strong data-count="17">0</strong><span>National titles</span></div></div></div></section>
 
     <section class="join" id="join"><div class="join-inner shell reveal"><img class="join-logo" src="TNTTA LOGO JPEG.jpeg" alt="TNTTA seal"><p class="kicker" style="justify-content:center;color:#020617">The next point is yours</p><h2>Step up. Stand out. Play Tamil Nadu.</h2><a class="button" href="mailto:contact@tntta.org.in">Join the movement <b>&#8599;</b></a></div></section>
   </main>
@@ -336,6 +357,62 @@
     document.querySelectorAll('.nav-links a').forEach((link) => link.addEventListener('click', () => { document.body.classList.remove('menu-open'); menuButton.setAttribute('aria-expanded','false'); }));
     const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }), { threshold: .14 });
     document.querySelectorAll('.reveal,.stagger').forEach((element) => observer.observe(element));
+
+    const fixtureGrid = document.querySelector('.fixture-grid');
+    const fixtureObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      entry.target.classList.toggle('in-view', entry.isIntersecting);
+      entry.target.closest('.fixtures').classList.toggle('in-view', entry.isIntersecting);
+    }), { threshold: .2 });
+    fixtureObserver.observe(fixtureGrid);
+
+    document.querySelectorAll('.step').forEach((step) => {
+      step.addEventListener('pointerenter', () => step.classList.add('is-hovered'));
+      step.addEventListener('pointerleave', () => step.classList.remove('is-hovered'));
+      step.addEventListener('pointercancel', () => step.classList.remove('is-hovered'));
+    });
+
+    const counters = document.querySelectorAll('[data-count]');
+    const counterFrames = new WeakMap();
+    const animateCounter = (counter) => {
+      cancelAnimationFrame(counterFrames.get(counter));
+      counter.textContent = '0';
+      const target = Number(counter.dataset.count);
+      const duration = 2000;
+      const startedAt = performance.now();
+      const update = (now) => {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        counter.textContent = Math.round(target * eased).toLocaleString();
+        if (progress < 1) counterFrames.set(counter, requestAnimationFrame(update));
+      };
+      counterFrames.set(counter, requestAnimationFrame(update));
+    };
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let lastCounterReplay = -Infinity;
+    const replayCounters = () => {
+      const now = performance.now();
+      if (now - lastCounterReplay < 250) return;
+      lastCounterReplay = now;
+      if (reducedMotion) {
+        counters.forEach((counter) => { counter.textContent = Number(counter.dataset.count).toLocaleString(); });
+        return;
+      }
+      counters.forEach(animateCounter);
+    };
+    if (reducedMotion) {
+      counters.forEach((counter) => { counter.textContent = Number(counter.dataset.count).toLocaleString(); });
+    } else {
+      const counterObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        replayCounters();
+      }), { threshold: .35 });
+      counterObserver.observe(document.querySelector('.score-grid'));
+      window.addEventListener('focus', replayCounters);
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') replayCounters(); });
+      document.querySelector('.intro').addEventListener('animationend', (event) => {
+        if (event.target === event.currentTarget && event.animationName === 'intro-out') replayCounters();
+      });
+    }
   </script>
 </body>
 </html>
