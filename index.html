@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tamil Nadu Table Tennis Association - where champions begin.">
+  <title>TNTTA V3 | Where Champions Begin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --night: #020617;
+      --slate: #0f172a;
+      --blue: #60a5fa;
+      --violet: #a78bfa;
+      --orange: #fb923c;
+      --white: #f8fafc;
+      --mist: #dbeafe;
+      --ink: #111827;
+      --display: "Barlow Condensed", sans-serif;
+      --body: "Manrope", sans-serif;
+      --pointer-x: 50vw;
+      --pointer-y: 40vh;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--white); background: var(--night); font-family: var(--body); overflow-x: hidden; }
+    body.menu-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; font: inherit; }
+    img { display: block; max-width: 100%; }
+    ::selection { color: var(--night); background: var(--orange); }
+    .shell { width: min(1320px, calc(100% - 64px)); margin-inline: auto; }
+
+    .grain { position: fixed; z-index: 90; inset: 0; pointer-events: none; opacity: .035; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.9'/%3E%3C/svg%3E"); }
+    .progress { position: fixed; z-index: 100; top: 0; left: 0; width: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--violet), var(--orange)); box-shadow: 0 0 18px var(--blue); }
+    .spotlight { position: fixed; z-index: 1; left: var(--pointer-x); top: var(--pointer-y); width: 520px; aspect-ratio: 1; pointer-events: none; border-radius: 50%; background: radial-gradient(circle, rgba(96,165,250,.11), transparent 66%); transform: translate(-50%,-50%); }
+
+    .intro { position: fixed; z-index: 200; inset: 0; display: grid; place-items: center; overflow: hidden; background: var(--night); animation: intro-out .8s 1.75s cubic-bezier(.8,0,.2,1) forwards; }
+    .intro-logo { position: relative; width: 150px; aspect-ratio: 1; padding: 12px; border-radius: 50%; background: white; animation: intro-logo 1.5s cubic-bezier(.2,.8,.2,1) both; }
+    .intro-logo img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+    .intro-ring { position: absolute; inset: -30px; border: 1px solid rgba(96,165,250,.45); border-radius: 50%; animation: intro-ring 1.25s infinite; }
+    .intro-word { position: absolute; bottom: 15%; overflow: hidden; font: 700 11px/1 var(--body); letter-spacing: .3em; text-transform: uppercase; }
+    .intro-word span { display: block; animation: rise .7s .55s both; }
+    @keyframes intro-logo { from { opacity: 0; transform: scale(.45) rotate(-20deg); } }
+    @keyframes intro-ring { to { opacity: 0; transform: scale(1.5); } }
+    @keyframes rise { from { transform: translateY(120%); } }
+    @keyframes intro-out { to { visibility: hidden; transform: translateY(-100%); } }
+
+    header { position: absolute; z-index: 40; top: 0; width: 100%; border-bottom: 1px solid rgba(255,255,255,.13); }
+    .nav { height: 92px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+    .brand { display: flex; align-items: center; gap: 13px; justify-self: start; }
+    .brand img { width: 47px; height: 47px; padding: 3px; object-fit: contain; border-radius: 50%; background: white; box-shadow: 0 0 24px rgba(96,165,250,.22); }
+    .brand strong { display: block; font: 900 27px/.8 var(--display); }
+    .brand small { display: block; margin-top: 6px; font-size: 8px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+    .nav-links { display: flex; align-items: center; gap: 31px; font-size: 11px; font-weight: 600; }
+    .nav-links a { position: relative; padding: 8px 0; }
+    .nav-links a::after { position: absolute; bottom: 0; left: 50%; width: 0; height: 1px; content: ""; background: var(--blue); transition: .25s; }
+    .nav-links a:hover::after { left: 0; width: 100%; }
+    .nav-action { justify-self: end; display: flex; align-items: center; gap: 18px; }
+    .live { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,.6); font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+    .live::before { width: 7px; aspect-ratio: 1; content: ""; border-radius: 50%; background: var(--orange); box-shadow: 0 0 12px var(--orange); animation: pulse 1s infinite alternate; }
+    @keyframes pulse { to { opacity: .3; transform: scale(.7); } }
+    .nav-button { padding: 12px 16px; color: var(--night); background: var(--white); font-size: 10px; font-weight: 700; text-transform: uppercase; }
+    .menu-button { display: none; width: 44px; height: 44px; padding: 0; border: 1px solid rgba(255,255,255,.3); background: transparent; }
+    .menu-button span, .menu-button span::before, .menu-button span::after { display: block; width: 19px; height: 2px; margin: auto; content: ""; background: white; transition: .25s; }
+    .menu-button span::before { transform: translateY(-6px); }
+    .menu-button span::after { transform: translateY(4px); }
+
+    .hero { position: relative; min-height: 820px; height: 100svh; max-height: 1020px; display: flex; align-items: flex-end; overflow: hidden; isolation: isolate; background: var(--night); }
+    .hero::before { position: absolute; z-index: -5; inset: 0; content: ""; background: radial-gradient(circle at 72% 45%, rgba(96,165,250,.2), transparent 28%), radial-gradient(circle at 82% 74%, rgba(167,139,250,.16), transparent 24%), radial-gradient(circle at 3% 100%, rgba(251,146,60,.18), transparent 20%), linear-gradient(115deg, #020617 24%, #0f172a 100%); }
+    .arena-grid { position: absolute; z-index: -4; inset: 0; opacity: .13; background-image: linear-gradient(rgba(255,255,255,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.35) 1px, transparent 1px); background-size: 80px 80px; transform: perspective(700px) rotateX(0deg); animation: grid-slide 9s linear infinite; mask-image: linear-gradient(to bottom, #000, transparent 90%); }
+    @keyframes grid-slide { to { background-position: 80px 80px; } }
+    .light-beam { position: absolute; z-index: -3; top: -18%; right: 12%; width: 13%; height: 115%; background: linear-gradient(to bottom, transparent, rgba(96,165,250,.15), transparent); transform: rotate(22deg); filter: blur(18px); animation: beam 5s ease-in-out infinite alternate; }
+    .light-beam.two { right: 30%; background: linear-gradient(to bottom, transparent, rgba(251,146,60,.12), transparent); animation-direction: alternate-reverse; }
+    @keyframes beam { to { transform: translateX(110px) rotate(16deg); } }
+    .court-lines { position: absolute; z-index: -2; left: 50%; bottom: -13%; width: 80%; height: 58%; border: 1px solid rgba(96,165,250,.25); transform: translateX(-50%) perspective(400px) rotateX(62deg); }
+    .court-lines::before, .court-lines::after { position: absolute; content: ""; background: rgba(96,165,250,.2); }
+    .court-lines::before { top: 50%; left: 0; width: 100%; height: 1px; }
+    .court-lines::after { left: 50%; top: 0; width: 1px; height: 100%; }
+
+    .paddle-stage { position: absolute; z-index: -1; right: -1%; top: 9%; width: min(54vw, 760px); height: 82%; overflow: hidden; transform: translate(calc((var(--pointer-x) - 50vw) * .014), calc((var(--pointer-y) - 40vh) * .01)); transition: transform .2s ease-out; mask-image: radial-gradient(ellipse 52% 58% at 55% 48%,#000 0 62%,transparent 83%); }
+    .paddle-photo { width: 100%; height: 100%; object-fit: cover; object-position: 57% 50%; filter: saturate(1.22) contrast(1.08) drop-shadow(30px 45px 35px rgba(0,0,0,.55)); transform: scale(1.06) rotate(-3deg); animation: photo-float 6s ease-in-out infinite alternate; }
+    @keyframes photo-float { to { transform: scale(1.1) rotate(1deg) translateY(-13px); } }
+    .paddle { position: absolute; top: 1%; left: 12%; width: 71%; aspect-ratio: .78; transform: rotate(21deg); filter: drop-shadow(35px 55px 38px rgba(0,0,0,.62)); animation: paddle-float 5s ease-in-out infinite alternate; }
+    .paddle-head { position: absolute; top: 0; left: 8%; width: 84%; aspect-ratio: .87; overflow: hidden; border: 9px solid #d5a365; border-radius: 49% 49% 46% 46%; background: radial-gradient(circle at 37% 28%, #f43f5e, #d31131 48%, #760719 100%); box-shadow: inset 0 0 0 4px #171717, inset -24px -30px 48px rgba(0,0,0,.34); }
+    .paddle-head::before { position: absolute; inset: 0; content: ""; opacity: .33; background-image: radial-gradient(circle, rgba(255,255,255,.34) .7px, transparent .8px); background-size: 4px 4px; mix-blend-mode: overlay; }
+    .paddle-head::after { position: absolute; left: -22%; bottom: 3%; width: 145%; height: 42%; content: ""; border: 4px solid rgba(255,255,255,.68); border-radius: 50%; transform: rotate(-13deg); }
+    .butterfly-brand { position: absolute; z-index: 3; left: 50%; bottom: 20%; display: grid; justify-items: center; transform: translateX(-50%) rotate(-9deg); text-shadow: 0 2px 4px rgba(0,0,0,.3); }
+    .butterfly-mark { position: relative; width: 62px; height: 35px; }
+    .butterfly-mark::before, .butterfly-mark::after { position: absolute; top: 2px; width: 31px; height: 28px; content: ""; border-radius: 55% 45% 60% 40%; background: white; }
+    .butterfly-mark::before { left: 3px; transform: rotate(24deg); }
+    .butterfly-mark::after { right: 3px; transform: rotate(-24deg); }
+    .butterfly-brand b { margin-top: 4px; font: 800 17px/1 var(--display); letter-spacing: .12em; }
+    .handle { position: absolute; z-index: -1; left: 38%; top: 73%; width: 26%; height: 40%; border-radius: 6px 6px 22px 22px; background: linear-gradient(90deg, #7a431f, #d89a57 16%, #f1c384 48%, #9b5d2d 83%, #592f1a); box-shadow: inset 0 0 0 3px rgba(59,28,9,.4); }
+    .handle::before { position: absolute; inset: 0; content: ""; opacity: .3; background: repeating-linear-gradient(88deg, transparent 0 8px, rgba(71,34,13,.55) 9px 10px); }
+    .handle-cap { position: absolute; left: 32%; bottom: -14%; width: 39%; height: 17%; border-radius: 50%; background: #151515; }
+    @keyframes paddle-float { to { transform: rotate(16deg) translateY(-22px) rotateX(3deg); } }
+
+    .ball { position: absolute; z-index: 4; right: 42%; top: 28%; width: 34px; aspect-ratio: 1; border-radius: 50%; background: white; box-shadow: 0 0 8px white, 0 0 38px var(--blue); animation: ball-flight 2.9s cubic-bezier(.6,0,.4,1) infinite alternate; }
+    .ball::after { position: absolute; top: 50%; right: 28px; width: 24vw; height: 2px; content: ""; background: linear-gradient(90deg, transparent, var(--violet), white); transform-origin: right; }
+    @keyframes ball-flight { to { transform: translate(-30vw, 38vh) scale(.55); } }
+    .spark { position: absolute; z-index: 2; width: 5px; aspect-ratio: 1; border-radius: 50%; background: var(--orange); box-shadow: 0 0 10px var(--orange); animation: spark 3s infinite ease-in-out; }
+    .spark.s1 { right: 29%; top: 22%; }
+    .spark.s2 { right: 18%; top: 54%; animation-delay: -.8s; background: var(--violet); }
+    .spark.s3 { right: 48%; top: 68%; animation-delay: -1.6s; background: var(--blue); }
+    @keyframes spark { 50% { opacity: .1; transform: translate(25px,-40px) scale(.3); } }
+
+    .hero-content { position: relative; z-index: 5; padding-bottom: 64px; }
+    .kicker { display: flex; align-items: center; gap: 12px; color: var(--blue); font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+    .kicker::before { width: 34px; height: 2px; content: ""; background: linear-gradient(90deg,var(--blue),var(--violet)); }
+    h1 { max-width: 930px; margin: 23px 0 25px; font: 900 clamp(90px, 11.5vw, 172px)/.72 var(--display); letter-spacing: 0; text-transform: uppercase; }
+    h1 span { display: block; color: transparent; -webkit-text-stroke: 1.5px rgba(255,255,255,.88); }
+    h1 em { color: var(--orange); font-style: normal; text-shadow: 0 0 30px rgba(251,146,60,.25); }
+    .hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+    .hero-copy { max-width: 525px; margin: 0; color: rgba(255,255,255,.58); font-size: 14px; line-height: 1.75; }
+    .hero-actions { display: flex; gap: 9px; margin-top: 25px; }
+    .button { position: relative; z-index: 0; min-height: 53px; display: inline-flex; align-items: center; justify-content: center; gap: 20px; padding: 0 21px; overflow: hidden; border: 1px solid rgba(255,255,255,.32); font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; transition: color .25s, transform .25s; }
+    .button::before { position: absolute; z-index: -1; inset: 0; content: ""; background: var(--white); transform: translateY(102%); transition: transform .3s; }
+    .button:hover { color: var(--night); transform: translateY(-3px); }
+    .button:hover::before { transform: none; }
+    .button.primary { color: var(--night); border-color: var(--blue); background: var(--blue); }
+    .button.primary::before { background: var(--orange); }
+    .hero-badge { width: 270px; padding: 18px 20px; border-left: 2px solid var(--orange); background: rgba(15,23,42,.66); backdrop-filter: blur(12px); }
+    .hero-badge small { color: var(--blue); font-size: 8px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .hero-badge strong { display: block; margin-top: 9px; font: 700 25px/1 var(--display); text-transform: uppercase; }
+
+    .marquee { position: relative; z-index: 4; overflow: hidden; color: var(--night); background: linear-gradient(90deg,var(--blue),var(--violet),var(--orange)); }
+    .marquee-track { width: max-content; display: flex; padding: 14px 0; animation: marquee 22s linear infinite; }
+    .marquee-track span { display: flex; align-items: center; gap: 28px; margin-right: 28px; font: 800 14px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+    .marquee-track span::after { width: 8px; aspect-ratio: 1; content: ""; border: 2px solid var(--night); border-radius: 50%; }
+    @keyframes marquee { to { transform: translateX(-50%); } }
+
+    .section { position: relative; padding: 115px 0; }
+    .section-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 45px; margin-bottom: 52px; }
+    h2 { margin: 15px 0 0; font: 900 clamp(58px,7vw,100px)/.8 var(--display); text-transform: uppercase; }
+    .section-note { max-width: 390px; margin: 0; color: rgba(255,255,255,.48); font-size: 13px; line-height: 1.7; }
+
+    .fixtures { background: linear-gradient(180deg,var(--night),var(--slate)); }
+    .fixture-grid { display: grid; grid-template-columns: 1.25fr .75fr .75fr; gap: 14px; }
+    .fixture { position: relative; min-height: 430px; padding: 28px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; border: 1px solid rgba(255,255,255,.13); background: rgba(255,255,255,.035); transition: transform .35s, border-color .35s; }
+    .fixture:hover { z-index: 2; border-color: var(--blue); transform: translateY(-10px); }
+    .fixture::before { position: absolute; right: -40%; bottom: -50%; width: 100%; aspect-ratio: 1; content: ""; border: 1px solid rgba(96,165,250,.25); border-radius: 50%; transition: transform .6s; }
+    .fixture:hover::before { transform: scale(1.4); }
+    .fixture.featured { background: linear-gradient(150deg,rgba(96,165,250,.17),rgba(167,139,250,.08)); }
+    .fixture-top { display: flex; justify-content: space-between; color: var(--blue); font-size: 9px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .fixture-date { color: rgba(255,255,255,.25); font: 900 82px/.75 var(--display); transition: color .3s; }
+    .fixture:hover .fixture-date { color: var(--orange); }
+    .fixture h3 { max-width: 410px; margin: 20px 0 12px; font: 800 35px/.93 var(--display); text-transform: uppercase; }
+    .featured h3 { font-size: 50px; }
+    .fixture p { margin: 0; color: rgba(255,255,255,.48); font-size: 11px; line-height: 1.7; }
+    .fixture-arrow { position: absolute; right: 25px; bottom: 25px; width: 42px; aspect-ratio: 1; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.28); transition: .3s; }
+    .fixture:hover .fixture-arrow { color: var(--night); background: var(--orange); border-color: var(--orange); transform: rotate(45deg); }
+
+    .cinema { min-height: 760px; display: flex; align-items: flex-end; overflow: hidden; background: var(--slate); }
+    .cinema-photo { position: absolute; inset: 0; overflow: hidden; background: radial-gradient(circle at 77% 47%,rgba(255,255,255,.13) 0 1%,rgba(96,165,250,.2) 2%,transparent 24%),radial-gradient(circle at 77% 47%,transparent 0 17%,rgba(167,139,250,.28) 17.2% 17.5%,transparent 17.8% 27%,rgba(96,165,250,.19) 27.2% 27.5%,transparent 27.8%),linear-gradient(115deg,#020617 18%,#111d47 65%,#0f172a); }
+    .cinema-photo::before { position: absolute; top: 44%; right: 20%; width: 54px; aspect-ratio: 1; content: ""; border-radius: 50%; background: white; box-shadow: 0 0 18px white,0 0 70px var(--blue),0 0 130px var(--violet); animation: speed-ball 2.6s cubic-bezier(.6,0,.4,1) infinite alternate; }
+    .cinema-photo::after { position: absolute; top: 47%; right: 23%; width: 48vw; height: 3px; content: ""; background: linear-gradient(90deg,transparent,var(--violet),var(--blue),white); transform-origin: right; filter: drop-shadow(0 0 8px var(--blue)); animation: speed-trail 2.6s ease-in-out infinite alternate; }
+    @keyframes speed-ball { to { transform: translate(-34vw,16vh) scale(.32); } }
+    @keyframes speed-trail { to { width: 18vw; transform: rotate(-14deg); opacity: .45; } }
+    .cinema-table { position: absolute; z-index: 1; right: -2%; bottom: 0; width: 58%; height: 58%; perspective: 900px; pointer-events: none; opacity: .76; }
+    .cinema-table-top { position: absolute; top: 17%; left: 3%; width: 92%; height: 57%; background: #082683; border: 3px solid var(--blue); box-shadow: 0 38px 65px rgba(2,6,23,.58),0 0 35px rgba(96,165,250,.18); transform: rotateX(61deg) rotateZ(-8deg); transform-style: preserve-3d; animation: cinema-table-float 5s ease-in-out infinite alternate; }
+    .cinema-table-top::before { position: absolute; top: 50%; left: 0; width: 100%; height: 3px; content: ""; background: var(--white); box-shadow: 0 -11px 22px rgba(255,255,255,.55); }
+    .cinema-table-top::after { position: absolute; top: 0; left: 50%; width: 2px; height: 100%; content: ""; background: rgba(255,255,255,.55); }
+    .cinema-rally-ball { position: absolute; z-index: 3; top: 22%; left: 26%; width: 25px; aspect-ratio: 1; border-radius: 50%; background: var(--orange); box-shadow: 0 0 12px var(--orange),0 0 35px rgba(251,146,60,.75); animation: cinema-rally 2.2s cubic-bezier(.6,0,.4,1) infinite alternate; }
+    .cinema-rally-ball::after { position: absolute; top: 50%; right: 100%; width: 155px; height: 2px; content: ""; background: linear-gradient(90deg,transparent,var(--orange)); }
+    @keyframes cinema-table-float { to { transform: rotateX(57deg) rotateZ(-5deg) translateY(-16px); } }
+    @keyframes cinema-rally { to { transform: translate(250px,95px) scale(.72); } }
+    .cinema::after { position: absolute; inset: 0; content: ""; background: linear-gradient(110deg,transparent 58%,rgba(251,146,60,.13)); }
+    .cinema-content { position: relative; z-index: 2; width: 100%; padding-bottom: 90px; }
+    .cinema h2 { max-width: 820px; font-size: clamp(72px,9vw,138px); }
+    .cinema h2 span { color: var(--blue); }
+    .cinema-copy { display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; }
+    .cinema-copy p { max-width: 480px; color: rgba(255,255,255,.57); font-size: 14px; line-height: 1.75; }
+    .speed { font: 900 86px/.75 var(--display); color: var(--orange); text-align: right; }
+    .speed small { display: block; margin-top: 10px; color: white; font: 700 9px/1 var(--body); letter-spacing: .14em; text-transform: uppercase; }
+
+    .pathway { color: var(--ink); background: var(--white); overflow: hidden; }
+    .pathway .kicker { color: #2563eb; }
+    .pathway::after { position: absolute; right: -12%; top: -20%; width: 520px; aspect-ratio: 1; content: ""; border: 75px solid rgba(96,165,250,.13); border-radius: 50%; }
+    .path-grid { position: relative; z-index: 1; display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; }
+    .path-title { position: sticky; top: 35px; align-self: start; }
+    .path-title h2 em { color: #7c3aed; font-style: normal; }
+    .steps { border-top: 1px solid rgba(17,24,39,.18); }
+    .step { display: grid; grid-template-columns: 52px 1fr 34px; gap: 20px; align-items: start; padding: 29px 0; border-bottom: 1px solid rgba(17,24,39,.18); }
+    .step-num { color: #7c3aed; font: 800 13px/1 var(--display); }
+    .step h3 { margin: 0 0 9px; font: 800 28px/1 var(--display); text-transform: uppercase; }
+    .step p { margin: 0; color: #64748b; font-size: 12px; line-height: 1.65; }
+    .step-icon { width: 30px; aspect-ratio: 1; display: grid; place-items: center; color: white; background: #2563eb; border-radius: 50%; transition: transform .4s; }
+    .step:hover .step-icon { transform: rotate(180deg); background: var(--orange); }
+
+    .scoreboard { overflow: hidden; background: var(--night); }
+    .scoreboard::before { position: absolute; inset: 0; content: ""; opacity: .11; background-image: linear-gradient(rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.4) 1px,transparent 1px); background-size: 90px 90px; }
+    .score-grid { position: relative; display: grid; grid-template-columns: repeat(4,1fr); border-top: 1px solid rgba(255,255,255,.16); border-bottom: 1px solid rgba(255,255,255,.16); }
+    .score { min-height: 310px; padding: 33px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid rgba(255,255,255,.16); transition: background .3s; }
+    .score:last-child { border: 0; }
+    .score:hover { background: rgba(96,165,250,.1); }
+    .score small { color: var(--blue); font-size: 9px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .score strong { font: 900 108px/.7 var(--display); color: transparent; -webkit-text-stroke: 1.5px var(--blue); transition: color .3s; }
+    .score:hover strong { color: var(--blue); }
+    .score span { max-width: 120px; font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+
+    .join { position: relative; min-height: 600px; display: grid; place-items: center; overflow: hidden; color: var(--night); text-align: center; background: var(--blue); }
+    .join::before { position: absolute; inset: 0; content: ""; background: radial-gradient(circle at 50% 50%,rgba(255,255,255,.45),transparent 25%); animation: join-glow 3s ease-in-out infinite alternate; }
+    @keyframes join-glow { to { transform: scale(1.35); opacity: .45; } }
+    .join-logo { width: 90px; margin: 0 auto 20px; padding: 6px; border-radius: 50%; background: white; animation: logo-turn 12s linear infinite; }
+    @keyframes logo-turn { to { transform: rotate(360deg); } }
+    .join-inner { position: relative; z-index: 1; }
+    .join h2 { max-width: 1050px; margin-inline: auto; font-size: clamp(78px,10vw,150px); }
+    .join .button { color: white; background: var(--night); border: 0; }
+    .join .button::before { background: var(--orange); }
+
+    footer { padding: 65px 0 28px; background: #01030d; }
+    .footer-main { display: grid; grid-template-columns: 1.7fr repeat(3,1fr); gap: 50px; }
+    .footer-about { max-width: 330px; margin-top: 22px; color: rgba(255,255,255,.4); font-size: 11px; line-height: 1.7; }
+    .footer-title { margin-bottom: 18px; color: var(--blue); font-size: 9px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; }
+    .footer-links { display: grid; gap: 12px; font-size: 11px; }
+    .footer-links a:hover { color: var(--orange); }
+    .footer-bottom { margin-top: 60px; padding-top: 21px; display: flex; justify-content: space-between; color: rgba(255,255,255,.25); border-top: 1px solid rgba(255,255,255,.1); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; }
+
+    .reveal { opacity: 0; transform: translateY(38px); transition: opacity .75s,transform .75s cubic-bezier(.2,.8,.2,1); }
+    .reveal.visible { opacity: 1; transform: none; }
+    .stagger > * { opacity: 0; transform: translateY(35px); transition: opacity .65s,transform .65s; }
+    .stagger.visible > * { opacity: 1; transform: none; }
+    .stagger.visible > *:nth-child(2) { transition-delay: .1s; }
+    .stagger.visible > *:nth-child(3) { transition-delay: .2s; }
+    .stagger.visible > *:nth-child(4) { transition-delay: .3s; }
+
+    @media (max-width: 980px) {
+      .spotlight { display: none; }
+      .nav { grid-template-columns: 1fr auto; }
+      .nav-links { position: fixed; z-index: -1; inset: 0; padding: 125px 32px 45px; display: flex; align-items: flex-start; flex-direction: column; background: var(--night); font: 800 40px/1 var(--display); text-transform: uppercase; transform: translateX(100%); transition: transform .4s cubic-bezier(.8,0,.2,1); }
+      .menu-open .nav-links { transform: none; }
+      .nav-action { display: none; }
+      .menu-button { position: relative; z-index: 2; display: block; }
+      .menu-open .menu-button span { background: transparent; }
+      .menu-open .menu-button span::before { background: white; transform: translateY(1px) rotate(45deg); }
+      .menu-open .menu-button span::after { background: white; transform: translateY(-1px) rotate(-45deg); }
+      .paddle-stage { right: -17%; width: 68vw; opacity: .82; }
+      .hero-badge { display: none; }
+      .fixture-grid { grid-template-columns: 1fr 1fr; }
+      .fixture.featured { grid-column: 1/-1; }
+      .path-grid { grid-template-columns: 1fr; gap: 50px; }
+      .path-title { position: static; }
+      .score-grid { grid-template-columns: 1fr 1fr; }
+      .score:nth-child(2) { border-right: 0; }
+      .score:nth-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,.16); }
+      .footer-main { grid-template-columns: 1fr 1fr; }
+      .footer-brand { grid-column: 1/-1; }
+    }
+
+    @media (max-width: 640px) {
+      .shell { width: calc(100% - 32px); }
+      .nav { height: 74px; }
+      .brand img { width: 39px; height: 39px; }
+      .brand strong { font-size: 23px; }
+      .brand small { font-size: 6px; }
+      .hero { min-height: 730px; max-height: 820px; }
+      .arena-grid { background-size: 55px 55px; }
+      .paddle-stage { top: 10%; right: -37%; width: 105vw; height: 66%; opacity: .72; }
+      .paddle-photo { object-position: 60% 50%; }
+      .ball { top: 31%; right: 34%; width: 25px; }
+      @keyframes ball-flight { to { transform: translate(-48vw,31vh) scale(.5); } }
+      .hero-content { padding-bottom: 47px; }
+      h1 { margin: 19px 0; font-size: clamp(72px,25vw,105px); }
+      .hero-copy { max-width: 315px; font-size: 12px; line-height: 1.6; }
+      .hero-actions .button:last-child { display: none; }
+      .section { padding: 82px 0; }
+      .section-head { align-items: flex-start; flex-direction: column; margin-bottom: 38px; }
+      .fixture-grid { grid-template-columns: 1fr; }
+      .fixture,.fixture.featured { min-height: 340px; grid-column: auto; }
+      .featured h3 { font-size: 40px; }
+      .cinema { min-height: 690px; }
+      .cinema-content { padding-bottom: 65px; }
+      .cinema h2 { font-size: clamp(46px,15vw,58px); }
+      .cinema-copy { align-items: flex-start; flex-direction: column; }
+      .cinema-table { right: -45%; bottom: 4%; width: 112%; height: 48%; opacity: .42; }
+      .cinema-rally-ball { left: 22%; width: 20px; }
+      @keyframes cinema-rally { to { transform: translate(130px,52px) scale(.72); } }
+      .speed { font-size: 65px; text-align: left; }
+      .step { grid-template-columns: 35px 1fr 30px; gap: 12px; }
+      .score { min-height: 210px; padding: 22px 16px; }
+      .score strong { font-size: 72px; }
+      .score span { font-size: 8px; }
+      .join { min-height: 510px; }
+      .join h2 { font-size: clamp(68px,22vw,100px); }
+      .footer-main { grid-template-columns: 1fr 1fr; gap: 38px 24px; }
+      .footer-bottom { align-items: flex-start; flex-direction: column; gap: 10px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { scroll-behavior: auto!important; animation-duration:.01ms!important; animation-iteration-count:1!important; transition-duration:.01ms!important; }
+      .intro { display:none; }
+      .reveal,.stagger>* { opacity:1; transform:none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="intro" aria-hidden="true"><div class="intro-logo"><span class="intro-ring"></span><img src="TNTTA LOGO JPEG.jpeg" alt=""></div><div class="intro-word"><span>Enter the arena</span></div></div>
+  <div class="grain"></div><div class="progress"></div><div class="spotlight"></div>
+
+  <header><nav class="nav shell" aria-label="Main navigation"><a class="brand" href="#top"><img src="TNTTA LOGO JPEG.jpeg" alt="TNTTA logo"><span><strong>TNTTA</strong><small>Tamil Nadu Table Tennis</small></span></a><div class="nav-links" id="nav-links"><a href="#fixtures">Tournaments</a><a href="#game">The game</a><a href="#pathway">Player pathway</a><a href="#legacy">Rankings</a></div><div class="nav-action"><span class="live">Match pulse</span><a class="nav-button" href="#join">Register now</a></div><button class="menu-button" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="nav-links"><span></span></button></nav></header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="arena-grid"></div><div class="light-beam"></div><div class="light-beam two"></div><div class="court-lines"></div>
+      <div class="paddle-stage"><img class="paddle-photo" src="https://images.unsplash.com/photo-1609710228159-0fa9bd7c0827?auto=format&amp;fit=crop&amp;w=1400&amp;q=88" alt="Red table tennis bat and ball on a blue competition table"></div>
+      <div class="ball"></div><i class="spark s1"></i><i class="spark s2"></i><i class="spark s3"></i>
+      <div class="hero-content shell"><p class="kicker">Official association of Tamil Nadu</p><h1>Born to <span>rally. Built to <em>rise.</em></span></h1><div class="hero-bottom"><div><p class="hero-copy">Every serve begins a possibility. Every rally builds belief. We turn raw instinct into state pride and national ambition.</p><div class="hero-actions"><a class="button primary" href="#fixtures">Enter the arena <b>&#8599;</b></a><a class="button" href="#pathway">Find your pathway</a></div></div><aside class="hero-badge"><small>Affiliated to TTFI</small><strong>One state. One game. Infinite speed.</strong></aside></div></div>
+    </section>
+
+    <div class="marquee"><div class="marquee-track"><span>Tamil Nadu moves fast</span><span>State ranking championships</span><span>Serve / Spin / Smash</span><span>National ranking calendar</span><span>Future champions begin here</span><span>Tamil Nadu moves fast</span><span>State ranking championships</span><span>Serve / Spin / Smash</span><span>National ranking calendar</span><span>Future champions begin here</span></div></div>
+
+    <section class="section fixtures" id="fixtures"><div class="shell"><div class="section-head reveal"><div><p class="kicker">Tournament desk / 2025 archive</p><h2>Lights on.<br>Game on.</h2></div><p class="section-note">The current association fixtures, presented with fast access to dates, venues and official tournament documents.</p></div><div class="fixture-grid stagger"><a class="fixture featured" href="https://tntta.org.in/wp-content/uploads/2025/10/7th.jpeg"><div class="fixture-top"><span>01 / State ranking</span><span>Chennai</span></div><div><span class="fixture-date">24-26</span><h3>Tamil Nadu State Ranking Tournament</h3><p>October 2025 / Tamil Nadu Physical Education University</p></div><span class="fixture-arrow">&#8599;</span></a><a class="fixture" href="https://www.ttfi.org/webroot/uploads/Tournaments/Pdf/3ef4d26287d4.pdf"><div class="fixture-top"><span>02 / National</span><span>Haryana</span></div><div><span class="fixture-date">09-14</span><h3>Panchkula Championships</h3><p>November 2025 / UTT National Ranking</p></div><span class="fixture-arrow">&#8599;</span></a><a class="fixture" href="https://www.ttfi.org/webroot/uploads/Tournaments/Pdf/UjK_Prospectus_3rd_NR_2025_Indore.pdf"><div class="fixture-top"><span>03 / National</span><span>Madhya Pradesh</span></div><div><span class="fixture-date">28-04</span><h3>Indore Championships</h3><p>Oct-Nov 2025 / UTT National Ranking</p></div><span class="fixture-arrow">&#8599;</span></a></div></div></section>
+
+    <section class="section cinema" id="game"><div class="cinema-photo"></div><div class="cinema-table" aria-label="Animated competition table and ball rally"><div class="cinema-table-top"></div><div class="cinema-rally-ball"></div></div><div class="cinema-content shell reveal"><p class="kicker">More than reaction</p><h2>Master the <span>milliseconds.</span></h2><div class="cinema-copy"><p>The table is small. The possibilities are not. Read the spin, own the angle and move before the moment arrives.</p><div class="speed">140<small>KM/H elite smash speed</small></div></div></div></section>
+
+    <section class="section pathway" id="pathway"><div class="shell path-grid"><div class="path-title reveal"><p class="kicker">The TNTTA pathway</p><h2>From first hit<br>to <em>final point.</em></h2></div><div class="steps stagger"><article class="step"><span class="step-num">01</span><div><h3>Discover</h3><p>Open tables through schools, districts and inclusive community programs for every age and ability.</p></div><span class="step-icon">&#8599;</span></article><article class="step"><span class="step-num">02</span><div><h3>Develop</h3><p>Build technique, athletic intelligence and confidence through structured coaching and camps.</p></div><span class="step-icon">&#8599;</span></article><article class="step"><span class="step-num">03</span><div><h3>Compete</h3><p>Test progress in professionally managed district, state and national competitions.</p></div><span class="step-icon">&#8599;</span></article><article class="step"><span class="step-num">04</span><div><h3>Represent</h3><p>Carry Tamil Nadu ambition onto the national stage with integrity, courage and pride.</p></div><span class="step-icon">&#8599;</span></article></div></div></section>
+
+    <section class="section scoreboard" id="legacy"><div class="shell"><div class="section-head reveal"><div><p class="kicker">Association scoreboard</p><h2>Legacy loading.</h2></div><p class="section-note">Data-ready positions for verified TNTTA achievement totals. The current source website displays zero for each category.</p></div><div class="score-grid stagger"><div class="score"><small>01 / Senior</small><strong>0</strong><span>National champions</span></div><div class="score"><small>02 / Senior</small><strong>0</strong><span>National titles</span></div><div class="score"><small>03 / Junior</small><strong>0</strong><span>National champions</span></div><div class="score"><small>04 / Junior</small><strong>0</strong><span>National titles</span></div></div></div></section>
+
+    <section class="join" id="join"><div class="join-inner shell reveal"><img class="join-logo" src="TNTTA LOGO JPEG.jpeg" alt="TNTTA seal"><p class="kicker" style="justify-content:center;color:#020617">The next point is yours</p><h2>Step up. Stand out. Play Tamil Nadu.</h2><a class="button" href="mailto:contact@tntta.org.in">Join the movement <b>&#8599;</b></a></div></section>
+  </main>
+
+  <footer><div class="shell"><div class="footer-main"><div class="footer-brand"><a class="brand" href="#top"><img src="TNTTA LOGO JPEG.jpeg" alt="TNTTA logo"><span><strong>TNTTA</strong><small>Tamil Nadu Table Tennis</small></span></a><p class="footer-about">Affiliated to the Table Tennis Federation of India. Developing players, competitions and communities across Tamil Nadu.</p></div><div><div class="footer-title">Compete</div><div class="footer-links"><a href="#fixtures">Tournaments</a><a href="#legacy">Rankings</a><a href="#game">The game</a></div></div><div><div class="footer-title">Develop</div><div class="footer-links"><a href="#pathway">Player pathway</a><a href="#pathway">Coaching</a><a href="#pathway">Districts</a></div></div><div><div class="footer-title">Connect</div><div class="footer-links"><a href="http://www.ttfi.org/">TTFI</a><a href="mailto:contact@tntta.org.in">Contact TNTTA</a><a href="#top">Back to top</a></div></div></div><div class="footer-bottom"><span>&copy; 2026 Tamil Nadu Table Tennis Association</span><span>Born to rally / Built to rise</span></div></div></footer>
+
+  <script>
+    const root = document.documentElement;
+    const progress = document.querySelector('.progress');
+    const menuButton = document.querySelector('.menu-button');
+    window.addEventListener('pointermove', (event) => { root.style.setProperty('--pointer-x', `${event.clientX}px`); root.style.setProperty('--pointer-y', `${event.clientY}px`); });
+    window.addEventListener('scroll', () => { const max = document.documentElement.scrollHeight - innerHeight; progress.style.width = `${max > 0 ? scrollY / max * 100 : 0}%`; }, { passive: true });
+    menuButton.addEventListener('click', () => { const open = document.body.classList.toggle('menu-open'); menuButton.setAttribute('aria-expanded', String(open)); });
+    document.querySelectorAll('.nav-links a').forEach((link) => link.addEventListener('click', () => { document.body.classList.remove('menu-open'); menuButton.setAttribute('aria-expanded','false'); }));
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } }), { threshold: .14 });
+    document.querySelectorAll('.reveal,.stagger').forEach((element) => observer.observe(element));
+  </script>
+</body>
+</html>
